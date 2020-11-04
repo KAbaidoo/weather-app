@@ -36,13 +36,13 @@ h2 {
 /* forecast */
 .daily-forecast h2 {
   font-weight: 300;
-  font-size: 1.2em;
+  font-size: 1.3em;
   margin-top: 5px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 .daily-forecast p {
   font-weight: 300;
-  font-size: 1em;
+  font-size: 1.1em;
 }
 .daily-forecast p span {
   font-size: 1.7em;
@@ -71,9 +71,7 @@ footer {
   text-align: center;
   padding: 20px;
 }
-.daily-forecast {
-  border: 1px solid black;
-}
+
 .hourly-forecast {
   border: 1px solid black;
 }
@@ -86,7 +84,7 @@ footer {
 }
 .forecast {
   flex: 150px;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   /* height: 100px; */
   /* margin: 5px; */
 }
