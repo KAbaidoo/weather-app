@@ -82,70 +82,32 @@ input.addEventListener("keydown", function (e) {
 
 
 
-//New Hybrid fetch weather
+//fetch weather
 async function fetchWeather() {
-    let cResponse;
-    let fResponse;
-    let obj;
-    // let args = arguments[0]
-    if (arguments.length == 1 && typeof arguments[0] == "string") {
-        console.log(arguments.length === 1 && typeof arguments[0] == "string");
-        obj = await getByCity(arguments[0])
-    } else if (arguments.length == 2 && typeof arguments[0] == "number") {
-        obj = await getByCoords(arguments[0], arguments[1])
+
+    let params;
+    if (arguments.length === 1 && typeof arguments[0] === "string") {
+        params = "q=" + arguments[0];
+    } else if (arguments.length === 2 && typeof arguments[0] === "number") {
+        params = "lat=" + arguments[0] + "&lon=" + arguments[1];
     }
-
-    async function getByCoords(lat, lon) {
-
+    let res = [];
+    let type = ["weather", "forecast"]
+    for (let i = 0; i < 2; i++) {
         try {
-            let response = await fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`);
-            if (response.status === 200) { cResponse = await response.json(); }
-        } catch (error) {
-            console.log(error);
-        }
-        try {
-            let response = await fetch(/* `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric` */
-                `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`);
-            if (response.status === 200) { fResponse = await response.json(); }
-        } catch (error) {
-            console.log(error);
-        }
-        // console.log("fetching by coods")
-        return { cResponse, fResponse }
-
-    }
-    async function getByCity(city) {
-
-        try {
-            let response = await fetch(
-                `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
-                // `http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric`
-            );
+            let response = await fetch(`http://api.openweathermap.org/data/2.5/${type[i]}?${params}&appid=${API_KEY}&units=metric`);
             if (response.status === 200) {
-                cResponse = await response.json();
-
+                res[i] = await response.json();
             }
         } catch (error) {
             console.log(error);
         }
-        try {
-            let response = await fetch(
-                // `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
-                `http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric`
-            );
-            if (response.status === 200) {
-                fResponse = await response.json();
-            }
-        } catch (error) {
-            console.log(error);
-        }
-        return { cResponse, fResponse }
-        // console.log("fetching by city")
     }
-    console.log(obj)
-    return obj;
+    let cResponse = res[0], fResponse = res[1];
+
+    return { cResponse, fResponse }
+
 }
-
 
 
 // display information
@@ -159,25 +121,23 @@ let displayWeather = (param) => {
     // display 4-day forecast
     displayForecast(forecastData)
 
-
     // change bookmark icon if city is bookmarked
     if (localStorage.getItem('bookmark')) {
         let fav = localStorage.getItem('bookmark');
         if (fav === city.toLowerCase()) {
             bookmark.classList.remove("far")
             bookmark.classList.add("fas")
-        }
+        }//End bookmarking 
     }
 }
 
-// TODO: Refactor code for less variables and also get current from forcast 
+// Display the current weather conditions
 function displayCurrent(currentData) {
     let temp = currentData.main.temp.toPrecision(2);
     let feelsLike = currentData.main.feels_like.toPrecision(2);
     let humidity = currentData.main.humidity;
     let pressure = currentData.main.pressure;
     let windSpeed = currentData.wind.speed;
-    // let windDeg = currentData.wind.deg;
     let visibility = currentData.visibility;
     let country = currentData.sys.country;
     let city = currentData.name;
@@ -198,21 +158,25 @@ function displayCurrent(currentData) {
 }
 
 
+
+// Display the forecast for 4 days
 function displayForecast(forecastData) {
     let forecast = [];
     let data;
     for (i = 8; i < 40; i = i + 8) {
         data = forecastData.list[i]
-        // console.log(data)
+
+        let temp = data.main.temp.toPrecision(2);
+        let feels_like = data.main.feels_like.toPrecision(2);
+        let desc = data.weather[0].description;
 
         forecast.push(`<article class="day forecast">
             <h2 class="date">Mon 13</h2>
-            <p class="temp"><span>${data.main.temp.toPrecision(2)}&nbsp;°</span> ${data.main.feels_like.toPrecision(2)}&nbsp;°</p>
-            <p class="description">${data.weather[0].description}</p>
+            <p class="temp"><span>${temp}&nbsp;°</span> ${feels_like}&nbsp;°</p>
+            <p class="description">${desc}</p>
         </article>`);
     }
     let forecastJoin = forecast.join("\n");
-    // console.log(forecastJoin);
     let dailyContainer = document.querySelector(".daily-forecast .container");
     dailyContainer.innerHTML = forecastJoin;
 }
