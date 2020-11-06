@@ -80,8 +80,6 @@ input.addEventListener("keydown", function (e) {
     }
 })
 
-
-
 //fetch weather
 async function fetchWeather() {
 
@@ -104,7 +102,6 @@ async function fetchWeather() {
         }
     }
     let cResponse = res[0], fResponse = res[1];
-
     return { cResponse, fResponse }
 
 }
@@ -124,7 +121,8 @@ let displayWeather = (param) => {
     // change bookmark icon if city is bookmarked
     if (localStorage.getItem('bookmark')) {
         let fav = localStorage.getItem('bookmark');
-        if (fav === city.toLowerCase()) {
+
+        if (fav === currentData.name.toLowerCase()) {
             bookmark.classList.remove("far")
             bookmark.classList.add("fas")
         }//End bookmarking 
@@ -150,7 +148,7 @@ function displayCurrent(currentData) {
     let currentWeather = `<article class="current">
          <h1>${city}, ${country}</h1>
          <h2><span>${temp}&nbsp;°C</span> <br>${results}</h2>
-         <p>Feels like ${feelsLike}&nbsp;°   &nbsp;&nbsp;    Wind ${windSpeed}&nbsp;km/h   &nbsp;&nbsp;    visibility ${visibility / 1000}&nbsp;km<br>
+         <p>Feels like ${feelsLike}&nbsp;°   &nbsp;&nbsp;    Wind ${windSpeed}&nbsp;km/h   &nbsp;&nbsp;    Visibility ${visibility / 1000}&nbsp;km<br>
          Pressure ${pressure}&nbsp;hPa   &nbsp;&nbsp;    Humidity ${humidity}&nbsp;%</p>
  
        </article>`;
@@ -163,6 +161,13 @@ function displayCurrent(currentData) {
 function displayForecast(forecastData) {
     let forecast = [];
     let data;
+    let week = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+    let now = new Date();
+    // console.log(now)
+    let day = now.getDay() + 1;
+    let dayOfWeek = "Tomorrow";
+    let dayDate = "";
+    let j = 1;
     for (i = 8; i < 40; i = i + 8) {
         data = forecastData.list[i]
 
@@ -171,10 +176,23 @@ function displayForecast(forecastData) {
         let desc = data.weather[0].description;
 
         forecast.push(`<article class="day forecast">
-            <h2 class="date">Mon 13</h2>
+            <h2 class="date">${dayOfWeek}&nbsp;${dayDate}</h2>
+        
             <p class="temp"><span>${temp}&nbsp;°</span> ${feels_like}&nbsp;°</p>
             <p class="description">${desc}</p>
         </article>`);
+        // console.log(dateDay)
+        day++
+        j++
+        if (day > 6) {
+            day = 0;
+        }
+        let mSecs = now.getTime() + (j * 24 * 3600 * 1000)
+        let date = new Date(mSecs)
+        dayDate = date.getDate();
+        dayOfWeek = week[day];
+
+
     }
     let forecastJoin = forecast.join("\n");
     let dailyContainer = document.querySelector(".daily-forecast .container");
