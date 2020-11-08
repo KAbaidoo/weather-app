@@ -22,7 +22,7 @@ function loadPage() {
 
     } else {
         // if there are no bookmarked cities load weather by location coordinates
-        getWeatherByIP()
+        getCityByIP().then(fetchWeather).then(displayWeather)
     }
 }
 
@@ -52,33 +52,21 @@ bookmark.addEventListener("click", (e) => {
     }
 })
 
-// get weather based on location coordinates of user browser
-function getWeatherByIP() {
-    // check if the Geolocation API is supported
+// get city based on IP address of user browser
+async function getCityByIP() {
 
-    /*  if (!navigator.geolocation) {
-         alert(`Your browser doesn't support Geolocation`);
-         return;
-     }
-     navigator.geolocation.getCurrentPosition(onSuccess, onError)
-     // handle success case
-     function onSuccess(position) {
-         const { latitude, longitude } = position.coords
-         fetchWeather(latitude, longitude).then(displayWeather);
- 
-     }
-     function onError() {
-         alert(`Failed to get your location!`);
-     } */
+    let city = "";
+    try {
+        let response = await fetch('https://extreme-ip-lookup.com/json/')
+        if (response.status === 200) {
+            let res = await response.json();
+            city = res.city
 
-    fetch('https://extreme-ip-lookup.com/json/')
-        .then(res => res.json())
-        .then(response => {
-            return response.city
-        }).then(fetchWeather).then(displayWeather)
-        .catch((data, status) => {
-            console.log('Request failed');
-        })
+        }
+    } catch (error) {
+        console.log(error);
+    }
+    return city
 }
 
 // get weather of search city
@@ -88,6 +76,8 @@ input.addEventListener("keydown", function (e) {
         fetchWeather(city).then(displayWeather)
     }
 })
+
+
 
 //fetch weather
 async function fetchWeather(param) {
