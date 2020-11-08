@@ -12,7 +12,7 @@ const input = document.getElementById("search")
 const bookmark = document.querySelector(".fa-star")
 
 //TODO: correct reload page to reload based on search value or geolocation
-function loadPage() {
+async function loadPage() {
     // check for bookmarked city
     let fav = localStorage.getItem('bookmark')
     if (!(fav === null || fav === "")) {
@@ -21,8 +21,8 @@ function loadPage() {
             .then(displayWeather)
 
     } else {
-        // if there are no bookmarked cities load weather by location coordinates
-        getCityByIP().then(fetchWeather).then(displayWeather)
+        // if there are no bookmarked cities load weather by IP city
+        getCityByIP().then(fetchWeather).then(displayWeather);
     }
 }
 
@@ -61,7 +61,6 @@ async function getCityByIP() {
         if (response.status === 200) {
             let res = await response.json();
             city = res.city
-
         }
     } catch (error) {
         console.log(error);
