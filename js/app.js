@@ -85,11 +85,14 @@ input.addEventListener("keydown", function (e) {
 async function fetchWeather(param) {
     let res = [];
     let type = ["weather", "forecast"]
+    // console.log(param);
+    param = param;
     for (let i = 0; i < 2; i++) {
         try {
             let response = await fetch(`https://api.openweathermap.org/data/2.5/${type[i]}?q=${param}&appid=${API_KEY}&units=metric`);
             if (response.status === 200) {
-                res[i] = await response.json();
+                // res[i] = await response.json();
+                res.push(await response.json());
             }
         } catch (error) {
             console.log(error);
