@@ -130,7 +130,7 @@ let displayWeather = (param) => {
 }
 
 // Display the current weather conditions
-function displayCurrent(currentData) {
+async function displayCurrent(currentData) {
     let temp = currentData.main.temp.toPrecision(2);
     let feelsLike = currentData.main.feels_like.toPrecision(2);
     let humidity = currentData.main.humidity;
@@ -145,8 +145,12 @@ function displayCurrent(currentData) {
         desc.push(obj["description"]);
     })
     let results = desc.join(", ");
+    let id = currentData.weather[0].id;
+    let images = await getImages(id);
+
     let currentWeather = `<article class="current">
          <h1>${city}, ${country}</h1>
+         <img src=\"${images.icon_day}\" alt=\"${images.main}-icon\" class=\"weather-icon\">
          <h2><span>${temp}&nbsp;°C</span> <br>${results}</h2>
          <p>Feels like ${feelsLike}&nbsp;°   &nbsp;&nbsp;    Wind ${windSpeed}&nbsp;km/h   &nbsp;&nbsp;    Visibility ${visibility / 1000}&nbsp;km<br>
          Pressure ${pressure}&nbsp;hPa   &nbsp;&nbsp;    Humidity ${humidity}&nbsp;%</p>
@@ -158,12 +162,12 @@ function displayCurrent(currentData) {
 
 
 // Display the forecast for 4 days
-function displayForecast(forecastData) {
+async function displayForecast(forecastData) {
     let forecast = [];
     let data;
     let week = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
     let now = new Date();
-    // console.log(now)
+
     let day = now.getDay() + 1;
     let dayOfWeek = "Tomorrow";
     let dayDate = "";
@@ -171,17 +175,23 @@ function displayForecast(forecastData) {
     for (i = 8; i < 40; i = i + 8) {
         data = forecastData.list[i]
 
+
         let temp = data.main.temp.toPrecision(2);
         let feels_like = data.main.feels_like.toPrecision(2);
         let desc = data.weather[0].description;
+        let id = data.weather[0].id;
+
+        let images = await getImages(id);
 
         forecast.push(`<article class="day forecast">
             <h2 class="date">${dayOfWeek}&nbsp;${dayDate}</h2>
-        
+            <img src=\"${images.icon_day}\" alt=\"${images.main}-icon\" class=\"weather-icon\">
+    
             <p class="temp"><span>${temp}&nbsp;°</span> ${feels_like}&nbsp;°</p>
             <p class="description">${desc}</p>
         </article>`);
-        // console.log(dateDay)
+
+        //Determine the date and days of forecast
         day++
         j++
         if (day > 6) {
@@ -198,3 +208,61 @@ function displayForecast(forecastData) {
     let dailyContainer = document.querySelector(".daily-forecast .container");
     dailyContainer.innerHTML = forecastJoin;
 }
+
+async function getImages(id) {
+    let res = null;
+    try {
+        let response = await fetch("../js/images.json");
+        let images = await response.json();
+        images.forEach(e => {
+            if (e._id.includes(id)) {
+                res = e;
+            }
+        })
+    } catch (e) {
+        console.log(e);
+    }
+
+    return res;
+}
+
+
+//Then, develop the renderUsers() function that renders user data:
+
+/* async function renderImages() {
+
+    let images = await getImages();
+    let id = 500;
+    let res = null;
+    images.forEach(e => {
+        if (e._id.includes(id)) {
+            res = e;
+        }
+    })
+    console.log(res)
+
+
+    // let arr = []
+    // arr.
+
+
+
+    /*  let html = "";
+     users.forEach((user) => {
+         let htmlSegment = `<div class="user">
+                               <div class="img-container">
+                                 <img src="person-1.jpeg" class="person-img" alt="" />
+                               </div>
+                               <h4 class="name">${user.firstName} ${user.lastName}</h4>
+                               <div class="email">
+                                 <a href="email:${user.email}">${user.email}</a>
+                               </div>
+                             </div>`;
+
+         html += htmlSegment;
+     });
+
+     let contentWrap = document.querySelector(".content-wrap");
+     contentWrap.innerHTML = html;
+} */
+

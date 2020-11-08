@@ -1,0 +1,92 @@
+[
+    {
+        "main" :"mist smoke haze dust fog sand ash squall tornado",
+        "_id":[701,711,721,731,741,751,761,771,781],
+        "icon_day":"http://openweathermap.org/img/wn/50d@2x.png",
+        "icon_night":"http://openweathermap.org/img/wn/50d@2x.png",
+        "background-day" : "",
+        "background_night" : ""
+    },
+     {
+        "main" :"snow",
+        "_id":[600,601,602,611,612,613,615,616,620,621,622],
+        "icon_day":"http://openweathermap.org/img/wn/13d@2x.png",
+        "icon_night":"http://openweathermap.org/img/wn/13d@2x.png",
+        "background-day" : "",
+        "background_night" : ""
+    },
+    {
+        "main" :"clear",
+        "_id":[800],
+        "icon_day":"http://openweathermap.org/img/wn/01d@2x.png",
+        "icon_night":"http://openweathermap.org/img/wn/01n@2x.png",
+        "background-day" : "",
+        "background_night" : ""
+    },
+    {
+        "main" :"clouds",
+        "_id":[801],
+        "icon_day":"http://openweathermap.org/img/wn/02d@2x.png",
+        "icon_night":"http://openweathermap.org/img/wn/02n@2x.png",
+        "background-day" : "",
+        "background_night" : ""
+    },
+    {
+        "main" :"clouds",
+        "_id":[802],
+        "icon_day":"http://openweathermap.org/img/wn/03d@2x.png",
+        "icon_night":"http://openweathermap.org/img/wn/03n@2x.png",
+        "background-day" : "",
+        "background_night" : ""
+    },
+    {
+        "main" :"clouds",
+        "_id":[803,804],
+        "icon_day":"http://openweathermap.org/img/wn/04d@2x.png",
+        "icon_night":"http://openweathermap.org/img/wn/04n@2x.png",
+        "background-day" : "",
+        "background_night" : ""
+    },
+     {
+        "main" :"rain",
+        "_id":[500,501,502,503,504],
+        "icon_day":"http://openweathermap.org/img/wn/10d@2x.png",
+        "icon_night":"http://openweathermap.org/img/wn/10d@2x.png",
+        "background-day" : "",
+        "background_night" : ""
+    },
+     {
+        "main" :"rain",
+        "_id":[511],
+        "icon_day":"http://openweathermap.org/img/wn/13d@2x.png",
+        "icon_night":"http://openweathermap.org/img/wn/13d@2x.png",
+        "background-day" : "",
+        "background_night" : ""
+    },
+     {
+        "main" :"rain",
+        "_id":[520,521,522,531],
+        "icon_day":"http://openweathermap.org/img/wn/09d@2x.png",
+        "icon_night":"http://openweathermap.org/img/wn/09d@2x.png",
+        "background-day" : "",
+        "background_night" : ""
+    },
+     {
+        "main" :"drizzle",
+        "_id":[300,301,302,310,311,312,313,314,321],
+        "icon_day":"http://openweathermap.org/img/wn/09d@2x.png",
+        "icon_night":"http://openweathermap.org/img/wn/09d@2x.png",
+        "background-day" : "",
+        "background_night" : ""
+    },
+     {
+        "main" :"thunderstorm",
+        "_id":[200,201,202,210,211,212,221,230,231,232],
+        "icon_day":"http://openweathermap.org/img/wn/11d@2x.png",
+        "icon_night":"http://openweathermap.org/img/wn/11d@2x.png",
+        "background-day" : "",
+        "background_night" : ""
+    }
+   
+
+]
