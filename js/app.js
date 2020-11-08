@@ -11,12 +11,13 @@ const current = document.querySelector(".current");
 const input = document.getElementById("search")
 const bookmark = document.querySelector(".fa-star")
 
+//TODO: correct reload page to reload based on search value or geolocation
 function loadPage() {
     // check for bookmarked city
-    let city = localStorage.getItem('bookmark')
-    if (!(city === null || city === "")) {
+    let fav = localStorage.getItem('bookmark')
+    if (!(fav === null || fav === "")) {
         // load weather for bookmarked city
-        fetchWeather(city)
+        fetchWeather(fav)
             .then(displayWeather)
 
     } else {
@@ -50,7 +51,6 @@ bookmark.addEventListener("click", (e) => {
         e.currentTarget.classList.add("fas")
     }
 })
-
 
 // get weather based on location coordinates of user browser
 function getLocationCoords() {
@@ -93,7 +93,7 @@ async function fetchWeather() {
     let type = ["weather", "forecast"]
     for (let i = 0; i < 2; i++) {
         try {
-            let response = await fetch(`http://api.openweathermap.org/data/2.5/${type[i]}?${params}&appid=${API_KEY}&units=metric`);
+            let response = await fetch(`https://api.openweathermap.org/data/2.5/${type[i]}?${params}&appid=${API_KEY}&units=metric`);
             if (response.status === 200) {
                 res[i] = await response.json();
             }
@@ -105,7 +105,6 @@ async function fetchWeather() {
     return { cResponse, fResponse }
 
 }
-
 
 // display information
 let displayWeather = (param) => {
@@ -159,8 +158,6 @@ async function displayCurrent(currentData) {
     current.innerHTML = currentWeather;
 }
 
-
-
 // Display the forecast for 4 days
 async function displayForecast(forecastData) {
     let forecast = [];
@@ -174,8 +171,6 @@ async function displayForecast(forecastData) {
     let j = 1;
     for (i = 8; i < 40; i = i + 8) {
         data = forecastData.list[i]
-
-
         let temp = data.main.temp.toPrecision(2);
         let feels_like = data.main.feels_like.toPrecision(2);
         let desc = data.weather[0].description;
@@ -222,47 +217,6 @@ async function getImages(id) {
     } catch (e) {
         console.log(e);
     }
-
     return res;
 }
-
-
-//Then, develop the renderUsers() function that renders user data:
-
-/* async function renderImages() {
-
-    let images = await getImages();
-    let id = 500;
-    let res = null;
-    images.forEach(e => {
-        if (e._id.includes(id)) {
-            res = e;
-        }
-    })
-    console.log(res)
-
-
-    // let arr = []
-    // arr.
-
-
-
-    /*  let html = "";
-     users.forEach((user) => {
-         let htmlSegment = `<div class="user">
-                               <div class="img-container">
-                                 <img src="person-1.jpeg" class="person-img" alt="" />
-                               </div>
-                               <h4 class="name">${user.firstName} ${user.lastName}</h4>
-                               <div class="email">
-                                 <a href="email:${user.email}">${user.email}</a>
-                               </div>
-                             </div>`;
-
-         html += htmlSegment;
-     });
-
-     let contentWrap = document.querySelector(".content-wrap");
-     contentWrap.innerHTML = html;
-} */
 
