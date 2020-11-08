@@ -23,7 +23,9 @@ async function loadPage() {
     } else {
         // if there are no bookmarked cities load weather by IP city
         let city = await getCityByIP()
-        fetchWeather(city).then(displayWeather);
+        let res = await fetchWeather(city)
+        displayWeather(res)
+
     }
 }
 
