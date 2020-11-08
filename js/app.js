@@ -22,7 +22,7 @@ function loadPage() {
 
     } else {
         // if there are no bookmarked cities load weather by location coordinates
-        getLocationCoords()
+        getWeatherByIP()
     }
 }
 
@@ -30,12 +30,12 @@ window.addEventListener("DOMContentLoaded",
     loadPage)
 
 // reload button
-const reloadBtn = document.querySelector(".fa-redo")
+/* const reloadBtn = document.querySelector(".fa-redo")
 
 //  Reload weather information
 reloadBtn.addEventListener("click",
     loadPage
-)
+) */
 
 // Bookmark a city (app loads to bookmarked city on load)
 bookmark.addEventListener("click", (e) => {
@@ -53,23 +53,32 @@ bookmark.addEventListener("click", (e) => {
 })
 
 // get weather based on location coordinates of user browser
-function getLocationCoords() {
+function getWeatherByIP() {
     // check if the Geolocation API is supported
 
-    if (!navigator.geolocation) {
-        alert(`Your browser doesn't support Geolocation`);
-        return;
-    }
-    navigator.geolocation.getCurrentPosition(onSuccess, onError)
-    // handle success case
-    function onSuccess(position) {
-        const { latitude, longitude } = position.coords
-        fetchWeather(latitude, longitude).then(displayWeather);
+    /*  if (!navigator.geolocation) {
+         alert(`Your browser doesn't support Geolocation`);
+         return;
+     }
+     navigator.geolocation.getCurrentPosition(onSuccess, onError)
+     // handle success case
+     function onSuccess(position) {
+         const { latitude, longitude } = position.coords
+         fetchWeather(latitude, longitude).then(displayWeather);
+ 
+     }
+     function onError() {
+         alert(`Failed to get your location!`);
+     } */
 
-    }
-    function onError() {
-        alert(`Failed to get your location!`);
-    }
+    fetch('https://extreme-ip-lookup.com/json/')
+        .then(res => res.json())
+        .then(response => {
+            return response.city
+        }).then(fetchWeather).then(displayWeather)
+        .catch((data, status) => {
+            console.log('Request failed');
+        })
 }
 
 // get weather of search city
@@ -81,19 +90,12 @@ input.addEventListener("keydown", function (e) {
 })
 
 //fetch weather
-async function fetchWeather() {
-
-    let params;
-    if (arguments.length === 1 && typeof arguments[0] === "string") {
-        params = "q=" + arguments[0];
-    } else if (arguments.length === 2 && typeof arguments[0] === "number") {
-        params = "lat=" + arguments[0] + "&lon=" + arguments[1];
-    }
+async function fetchWeather(param) {
     let res = [];
     let type = ["weather", "forecast"]
     for (let i = 0; i < 2; i++) {
         try {
-            let response = await fetch(`https://api.openweathermap.org/data/2.5/${type[i]}?${params}&appid=${API_KEY}&units=metric`);
+            let response = await fetch(`https://api.openweathermap.org/data/2.5/${type[i]}?q=${param}&appid=${API_KEY}&units=metric`);
             if (response.status === 200) {
                 res[i] = await response.json();
             }
@@ -147,14 +149,11 @@ async function displayCurrent(currentData) {
     let id = currentData.weather[0].id;
     let images = await getImages(id);
 
-    let currentWeather = `<article class="current">
-         <h1>${city}, ${country}</h1>
-         <img src=\"${images.icon_day}\" alt=\"${images.main}-icon\" class=\"weather-icon\">
-         <h2><span>${temp}&nbsp;°C</span> <br>${results}</h2>
-         <p>Feels like ${feelsLike}&nbsp;°   &nbsp;&nbsp;    Wind ${windSpeed}&nbsp;km/h   &nbsp;&nbsp;    Visibility ${visibility / 1000}&nbsp;km<br>
-         Pressure ${pressure}&nbsp;hPa   &nbsp;&nbsp;    Humidity ${humidity}&nbsp;%</p>
- 
-       </article>`;
+    let currentWeather = `<h1>${city}, ${country}</h1>
+                        <img src=\"${images.icon_day}\" alt=\"${images.main}-icon\" class=\"weather-icon\">
+                        <h2><span>${temp}&nbsp;°C</span> <br>${results}</h2>
+                        <p>Feels like ${feelsLike}&nbsp;°   &nbsp;&nbsp;    Wind ${windSpeed}&nbsp;km/h   &nbsp;&nbsp;    Visibility ${visibility / 1000}&nbsp;km<br>
+                        Pressure ${pressure}&nbsp;hPa   &nbsp;&nbsp;    Humidity ${humidity}&nbsp;%</p>`;
     current.innerHTML = currentWeather;
 }
 
