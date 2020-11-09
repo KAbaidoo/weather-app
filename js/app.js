@@ -19,16 +19,12 @@ function loadPage() {
         // load weather for bookmarked city
         fetchWeather(fav)
             .then(displayWeather)
-
     } else {
         // if there are no bookmarked cities load weather by IP city
-        getWeatherByIP()
-
-
+        getCityByIP().then(fetchWeather).then(displayWeather);
     }
 }
-window.addEventListener("DOMContentLoaded",
-    loadPage)
+
 
 // reload button
 /* const reloadBtn = document.querySelector(".fa-redo")
@@ -38,46 +34,27 @@ reloadBtn.addEventListener("click",
     loadPage
 ) */
 
-// Bookmark a city (app loads to bookmarked city on load)
-bookmark.addEventListener("click", (e) => {
 
-    if (localStorage.getItem('bookmark') === input.value) {
-        window.localStorage.removeItem('bookmark');
-        e.currentTarget.classList.remove("fas")
-        e.currentTarget.classList.add("far")
-
-    } else {
-        window.localStorage.setItem('bookmark', input.value);
-        e.currentTarget.classList.remove("far")
-        e.currentTarget.classList.add("fas")
-    }
-})
 
 // get city based on IP address of user browser
-async function getWeatherByIP() {
+async function getCityByIP() {
 
     let city = "";
     try {
         let response = await fetch('https://extreme-ip-lookup.com/json/')
         if (response.status === 200) {
             let res = await response.json();
-            city = res.city
-            fetchWeather(city).then(displayWeather)
+            city = await res.city
+
 
         }
     } catch (error) {
         console.log(error);
     }
-
+    return city;
 }
 
-// get weather of search city
-input.addEventListener("keydown", function (e) {
-    if (e.code === "Enter") {
-        let city = input.value;
-        fetchWeather(city).then(displayWeather)
-    }
-})
+
 
 
 
@@ -214,3 +191,28 @@ async function getImages(id) {
     return res;
 }
 
+window.addEventListener("DOMContentLoaded",
+    loadPage)
+
+// get weather of search city
+input.addEventListener("keydown", function (e) {
+    if (e.code === "Enter") {
+        let city = input.value;
+        fetchWeather(city).then(displayWeather)
+    }
+})
+
+// Bookmark a city (app loads to bookmarked city on load)
+bookmark.addEventListener("click", (e) => {
+
+    if (localStorage.getItem('bookmark') === input.value) {
+        window.localStorage.removeItem('bookmark');
+        e.currentTarget.classList.remove("fas")
+        e.currentTarget.classList.add("far")
+
+    } else {
+        window.localStorage.setItem('bookmark', input.value);
+        e.currentTarget.classList.remove("far")
+        e.currentTarget.classList.add("fas")
+    }
+})
