@@ -33,6 +33,15 @@ async function getCityByIp() {
 
 
 async function loadPage() {
+    let city;
+    try {
+        city = await getCityByIp();
+        console.log(city)
+
+
+    } catch (err) { console.log(err) }
+
+
     // check for bookmarked city
     let fav = localStorage.getItem('bookmark')
     if (!(fav === null || fav === "")) {
@@ -40,14 +49,9 @@ async function loadPage() {
         fetchWeather(fav)
             .then(displayWeather)
     } else {
-        try {
-            let city = await getCityByIp();
-            console.log(city)
-            let w = await fetchWeather(city)
-            console.log(w);
-            displayWeather(w)
-        } catch (err) { console.log(err) }
-
+        console.log(city)
+        fetchWeather(city)
+            .then(displayWeather)
     }
 }
 
