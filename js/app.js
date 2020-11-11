@@ -11,7 +11,6 @@ const current = document.querySelector(".current");
 const input = document.getElementById("search")
 const bookmark = document.querySelector(".fa-star")
 
-let myCity = (getCityByIp)()
 
 
 
@@ -26,8 +25,9 @@ async function getCityByIp() {
     } catch (error) {
         console.log(error);
     }
-    return userCity;
+    fetchWeather(userCity).then(displayWeather)
 }
+
 
 function loadPage() {
     // check for bookmarked city
@@ -38,8 +38,7 @@ function loadPage() {
             .then(displayWeather)
     } else {
 
-        myCity.then(fetchWeather).then(displayWeather)
-
+        getCityByIp();
     }
 }
 
