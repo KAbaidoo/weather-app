@@ -33,9 +33,10 @@ async function getCityByIp() {
 
 
 async function loadPage() {
-    let city = "accra";
+    let city = "tema";
     try {
         city = await getCityByIp();
+
     } catch (err) { console.log(err) }
 
     // check for bookmarked city
@@ -54,7 +55,6 @@ async function loadPage() {
 //fetch weather
 async function fetchWeather(city) {
     let cResponse, fResponse;
-
     try {
         let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`);
         if (response.status === 200) {
