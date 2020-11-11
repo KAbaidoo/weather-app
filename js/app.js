@@ -42,7 +42,7 @@ async function getCityByIP() {
 
 
 //TODO: correct reload page to reload based on search value or geolocation
-function loadPage() {
+async function loadPage() {
     // check for bookmarked city
     let fav = localStorage.getItem('bookmark')
     if (!(fav === null || fav === "")) {
@@ -51,7 +51,8 @@ function loadPage() {
             .then(displayWeather)
     } else {
         // if there are no bookmarked cities load weather by IP city
-        getCityByIP().then(fetchWeather).then(displayWeather)
+        let city = await getCityByIP();
+        fetchWeather(city).then(displayWeather)
 
     }
 }
