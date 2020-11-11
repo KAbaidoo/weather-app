@@ -21,11 +21,12 @@ async function getCityByIp() {
         if (response.status === 200) {
             userCity = await response.json()
             userCity = await userCity.city
+            await fetchWeather(userCity).then(displayWeather)
         }
     } catch (error) {
         console.log(error);
     }
-    fetchWeather(userCity).then(displayWeather)
+
 }
 
 
