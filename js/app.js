@@ -21,7 +21,8 @@ async function getCityByIp() {
         if (response.status === 200) {
             userCity = await response.json()
             userCity = await userCity.city
-            await fetchWeather(userCity).then(displayWeather)
+            let w = await fetchWeather(userCity)
+            await displayWeather(w);
         }
     } catch (error) {
         console.log(error);
