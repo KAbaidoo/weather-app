@@ -33,7 +33,7 @@ async function getCityByIp() {
 
 
 async function loadPage() {
-    let city = "tema";
+    let city = "accra";
     try {
         city = await getCityByIp();
     } catch (err) { console.log(err) }
