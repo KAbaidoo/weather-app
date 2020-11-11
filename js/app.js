@@ -11,6 +11,10 @@ const current = document.querySelector(".current");
 const input = document.getElementById("search")
 const bookmark = document.querySelector(".fa-star")
 
+let myCity = (getCityByIp)()
+
+
+
 async function getCityByIp() {
     let userCity;
     try {
@@ -22,7 +26,7 @@ async function getCityByIp() {
     } catch (error) {
         console.log(error);
     }
-    return await userCity;
+    return userCity;
 }
 
 function loadPage() {
@@ -33,29 +37,11 @@ function loadPage() {
         fetchWeather(fav)
             .then(displayWeather)
     } else {
-        // if there are no bookmarked cities load weather by IP city
-        // let city = await getCityByIP();
-        getCityByIp().then(fetchWeather).then(displayWeather)
+
+        myCity.then(fetchWeather).then(displayWeather)
 
     }
 }
-
-
-// reload button
-/* const reloadBtn = document.querySelector(".fa-redo")
-
-//  Reload weather information
-reloadBtn.addEventListener("click",
-    loadPage
-) */
-
-
-
-// get city based on IP address of user browser
-
-
-
-
 
 
 //fetch weather
@@ -84,7 +70,7 @@ async function fetchWeather(city) {
 }
 
 // display information
-let displayWeather = (param) => {
+function displayWeather(param) {
     let currentData = param.cResponse,
         forecastData = param.fResponse;
 
