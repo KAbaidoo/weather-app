@@ -5,27 +5,16 @@ Provide current weather conditions and forecast based on a city search
 2.  Enable user to bookmark a city to be loaded on next visit
 3.  
 */
-"use strict"
+"use strict";
 const API_KEY = "c1749cb94a9a268e7a35ba3804755af0";
 const current = document.querySelector(".current");
 const input = document.getElementById("search")
 const bookmark = document.querySelector(".fa-star")
-let userCity = "";
 
-/* getCityByIP().then(val => {
-    userCity = val;
-    loadPage(userCity)
-}) */
-
-/* async function city() {
-    let userCity = await getCityByIP()
-    return userCity
-} */
-
-async function getCityByIP() {
-    let userCity
+async function getCityByIp() {
+    let userCity;
     try {
-        let response = await fetch('https://extreme-ip-lookup.com/json/')
+        let response = await fetch('https://extreme-ip-lookup.com/json/');
         if (response.status === 200) {
             userCity = await response.json()
             userCity = await userCity.city
@@ -33,16 +22,10 @@ async function getCityByIP() {
     } catch (error) {
         console.log(error);
     }
-
-    return userCity;
+    return await userCity;
 }
 
-
-
-
-
-//TODO: correct reload page to reload based on search value or geolocation
-async function loadPage() {
+function loadPage() {
     // check for bookmarked city
     let fav = localStorage.getItem('bookmark')
     if (!(fav === null || fav === "")) {
@@ -51,8 +34,8 @@ async function loadPage() {
             .then(displayWeather)
     } else {
         // if there are no bookmarked cities load weather by IP city
-        let city = await getCityByIP();
-        fetchWeather(city).then(displayWeather)
+        // let city = await getCityByIP();
+        getCityByIp().then(fetchWeather).then(displayWeather)
 
     }
 }
