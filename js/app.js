@@ -40,10 +40,14 @@ async function loadPage() {
         fetchWeather(fav)
             .then(displayWeather)
     } else {
-        let city = await getCityByIp();
-        console.log(city)
-        fetchWeather(city)
-            .then(displayWeather)
+        try {
+            let city = await getCityByIp();
+            console.log(city)
+            let w = await fetchWeather(city)
+            console.log(w);
+            displayWeather(w)
+        } catch (err) { console.log(err) }
+
     }
 }
 
