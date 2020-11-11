@@ -5,11 +5,41 @@ Provide current weather conditions and forecast based on a city search
 2.  Enable user to bookmark a city to be loaded on next visit
 3.  
 */
-
+"use strict"
 const API_KEY = "c1749cb94a9a268e7a35ba3804755af0";
 const current = document.querySelector(".current");
 const input = document.getElementById("search")
 const bookmark = document.querySelector(".fa-star")
+let userCity = "";
+
+/* getCityByIP().then(val => {
+    userCity = val;
+    loadPage(userCity)
+}) */
+
+/* async function city() {
+    let userCity = await getCityByIP()
+    return userCity
+} */
+
+async function getCityByIP() {
+    let userCity
+    try {
+        let response = await fetch('https://extreme-ip-lookup.com/json/')
+        if (response.status === 200) {
+            userCity = await response.json()
+            userCity = await userCity.city
+        }
+    } catch (error) {
+        console.log(error);
+    }
+
+    return userCity;
+}
+
+
+
+
 
 //TODO: correct reload page to reload based on search value or geolocation
 function loadPage() {
@@ -21,7 +51,8 @@ function loadPage() {
             .then(displayWeather)
     } else {
         // if there are no bookmarked cities load weather by IP city
-        getCityByIP().then(fetchWeather).then(displayWeather);
+        getCityByIP().then(fetchWeather).then(displayWeather)
+
     }
 }
 
@@ -37,45 +68,33 @@ reloadBtn.addEventListener("click",
 
 
 // get city based on IP address of user browser
-async function getCityByIP() {
 
-    let city = "";
-    try {
-        let response = await fetch('https://extreme-ip-lookup.com/json/')
-        if (response.status === 200) {
-            let res = await response.json();
-            city = await res.city
-
-
-        }
-    } catch (error) {
-        console.log(error);
-    }
-    return city;
-}
 
 
 
 
 
 //fetch weather
-async function fetchWeather(param) {
-    let res = [];
-    let type = ["weather", "forecast"]
-    // console.log(param);
-    param = param;
-    for (let i = 0; i < 2; i++) {
-        try {
-            let response = await fetch(`https://api.openweathermap.org/data/2.5/${type[i]}?q=${param}&appid=${API_KEY}&units=metric`);
-            if (response.status === 200) {
-                // res[i] = await response.json();
-                res.push(await response.json());
-            }
-        } catch (error) {
-            console.log(error);
+async function fetchWeather(city) {
+    let cResponse, fResponse;
+
+    try {
+        let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`);
+        if (response.status === 200) {
+            cResponse = await response.json();
         }
+    } catch (error) {
+        console.log(error);
     }
-    let cResponse = res[0], fResponse = res[1];
+    try {
+        let response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric`);
+        if (response.status === 200) {
+            fResponse = await response.json();
+        }
+    } catch (error) {
+        console.log(error);
+    }
+
     return { cResponse, fResponse }
 
 }
@@ -140,7 +159,7 @@ async function displayForecast(forecastData) {
     let dayOfWeek = "Tomorrow";
     let dayDate = "";
     let j = 1;
-    for (i = 8; i < 40; i = i + 8) {
+    for (let i = 8; i < 40; i = i + 8) {
         data = forecastData.list[i]
         let temp = data.main.temp.toPrecision(2);
         let feels_like = data.main.feels_like.toPrecision(2);
