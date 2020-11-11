@@ -21,17 +21,18 @@ async function getCityByIp() {
         if (response.status === 200) {
             userCity = await response.json()
             userCity = await userCity.city
-            let w = await fetchWeather(userCity)
-            await displayWeather(w);
+            /* let w = await fetchWeather(userCity)
+            console.log(w);
+            await displayWeather(w); */
         }
     } catch (error) {
         console.log(error);
     }
-
+    return userCity;
 }
 
 
-function loadPage() {
+async function loadPage() {
     // check for bookmarked city
     let fav = localStorage.getItem('bookmark')
     if (!(fav === null || fav === "")) {
@@ -39,8 +40,10 @@ function loadPage() {
         fetchWeather(fav)
             .then(displayWeather)
     } else {
-
-        getCityByIp();
+        let city = await getCityByIp();
+        console.log(city)
+        fetchWeather(city)
+            .then(displayWeather)
     }
 }
 
