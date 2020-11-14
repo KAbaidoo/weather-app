@@ -21,6 +21,8 @@ async function getCityByIp() {
         if (response.status === 200) {
             userCity = await response.json()
             userCity = await userCity.city
+            // userCity = JSON.stringify(userCity);
+            // console.log(typeof userCity)
             /* let w = await fetchWeather(userCity)
             console.log(w);
             await displayWeather(w); */
@@ -32,30 +34,14 @@ async function getCityByIp() {
 }
 
 
-async function loadPage() {
-    let city = "tema";
-    try {
-        city = await getCityByIp();
-
-    } catch (err) { console.log(err) }
-
-    // check for bookmarked city
-    let fav = localStorage.getItem('bookmark')
-    if (!(fav === null || fav === "")) {
-        // load weather for bookmarked city
-        fetchWeather(fav)
-            .then(displayWeather)
-    } else {
-        fetchWeather(city)
-            .then(displayWeather)
-    }
-}
 
 
 //fetch weather
 async function fetchWeather(city) {
     let cResponse, fResponse;
+
     try {
+
         let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`);
         if (response.status === 200) {
             cResponse = await response.json();
@@ -187,8 +173,24 @@ async function getImages(id) {
     return res;
 }
 
-window.addEventListener("DOMContentLoaded",
-    loadPage)
+
+window.addEventListener("DOMContentLoaded", async function () {
+    let city = "";
+    try {
+        city = await getCityByIp();
+
+    } catch (err) { console.log(err) }
+
+    let fav = localStorage.getItem('bookmark')
+    if (!(fav === null || fav === "")) {
+        // load weather for bookmarked city
+        fetchWeather(fav)
+            .then(displayWeather)
+    } else {
+        fetchWeather(city)
+            .then(displayWeather)
+    }
+})
 
 // get weather of search city
 input.addEventListener("keydown", function (e) {
