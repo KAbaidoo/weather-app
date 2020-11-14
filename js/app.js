@@ -174,12 +174,12 @@ async function getImages(id) {
 }
 
 
-window.addEventListener("DOMContentLoaded", async function () {
-    let city = "";
-    try {
-        city = await getCityByIp();
-
-    } catch (err) { console.log(err) }
+window.addEventListener("DOMContentLoaded", function () {
+    /*  let city = "";
+     try {
+         city = await getCityByIp();
+ 
+     } catch (err) { console.log(err) } */
 
     let fav = localStorage.getItem('bookmark')
     if (!(fav === null || fav === "")) {
@@ -187,13 +187,24 @@ window.addEventListener("DOMContentLoaded", async function () {
         fetchWeather(fav)
             .then(displayWeather)
     } else {
+        /* console.log(city)
         fetchWeather(city)
-            .then(displayWeather)
+            .then(displayWeather) */
+        getWeatherByCityIP(fetchWeather, displayWeather)
     }
 })
+async function getWeatherByCityIP(fn1, fn2) {
+    let city = await getCityByIp()
+    console.log(city)
+    let res = await fn1(city)
+    console.log(res)
+    fn2(res)
+
+}
+
 
 // get weather of search city
-input.addEventListener("keydown", function (e) {
+input.addEventListener("keyup", function (e) {
     if (e.code === "Enter") {
         let city = input.value;
         fetchWeather(city).then(displayWeather)
