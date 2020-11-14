@@ -14,24 +14,7 @@ const bookmark = document.querySelector(".fa-star")
 
 
 
-async function getCityByIp() {
-    let userCity;
-    try {
-        let response = await fetch('https://extreme-ip-lookup.com/json/');
-        if (response.status === 200) {
-            userCity = await response.json()
-            userCity = await userCity.city
-            // userCity = JSON.stringify(userCity);
-            // console.log(typeof userCity)
-            /* let w = await fetchWeather(userCity)
-            console.log(w);
-            await displayWeather(w); */
-        }
-    } catch (error) {
-        console.log(error);
-    }
-    return userCity;
-}
+
 
 
 
@@ -190,7 +173,7 @@ window.addEventListener("DOMContentLoaded", function () {
         /* console.log(city)
         fetchWeather(city)
             .then(displayWeather) */
-        getWeatherByCityIP(fetchWeather, displayWeather)
+        getCityByIp(fetchWeather, displayWeather)
     }
 })
 async function getWeatherByCityIP(fn1, fn2) {
@@ -199,7 +182,21 @@ async function getWeatherByCityIP(fn1, fn2) {
     let res = await fn1(city)
     console.log(res)
     fn2(res)
-
+}
+async function getCityByIp(fn1, fn2) {
+    let userCity = "";
+    try {
+        let response = await fetch('https://extreme-ip-lookup.com/json/');
+        if (response.status === 200) {
+            userCity = await response.json()
+            userCity = await userCity.city
+            let res = await fn1(userCity)
+            fn2(res)
+        }
+    } catch (error) {
+        console.log(error);
+    }
+    // return userCity;
 }
 
 
