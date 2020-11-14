@@ -180,7 +180,7 @@ window.addEventListener("DOMContentLoaded", function () {
 async function getWeatherCityByIp(fn1, fn2) {
     let userCity = "";
     try {
-        let response = await fetch('http://ipinfo.io/?token=094dece3208b52');
+        let response = await fetch('https://ipinfo.io/?token=094dece3208b52');
         console.log(response);
         if (response.status === 200) {
             console.log(response);
