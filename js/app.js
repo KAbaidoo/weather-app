@@ -173,25 +173,22 @@ window.addEventListener("DOMContentLoaded", function () {
         /* console.log(city)
         fetchWeather(city)
             .then(displayWeather) */
-        getCityByIp(fetchWeather, displayWeather)
+        getWeatherCityByIp(fetchWeather, displayWeather)
     }
 })
-async function getWeatherByCityIP(fn1, fn2) {
-    let city = await getCityByIp()
-    console.log(city)
-    let res = await fn1(city)
-    console.log(res)
-    fn2(res)
-}
-async function getCityByIp(fn1, fn2) {
+
+async function getWeatherCityByIp(fn1, fn2) {
     let userCity = "";
     try {
         let response = await fetch('https://extreme-ip-lookup.com/json/');
+        console.log(response);
         if (response.status === 200) {
+            console.log(response);
+
             userCity = await response.json()
-            userCity = await userCity.city
-            let res = await fn1(userCity)
-            fn2(res)
+            console.log(userCity);
+            await fn1(userCity.city)
+                .then(fn2)
         }
     } catch (error) {
         console.log(error);
