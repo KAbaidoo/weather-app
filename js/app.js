@@ -7,16 +7,8 @@ Provide current weather conditions and forecast based on a city search
 */
 "use strict";
 const API_KEY = "c1749cb94a9a268e7a35ba3804755af0";
-const current = document.querySelector(".current");
 const input = document.getElementById("search")
 const bookmark = document.querySelector(".fa-star")
-
-
-
-
-
-
-
 
 
 //fetch weather
@@ -47,6 +39,9 @@ async function fetchWeather(city) {
 
 // display information
 function displayWeather(param) {
+
+
+
     let currentData = param.cResponse,
         forecastData = param.fResponse;
 
@@ -69,6 +64,9 @@ function displayWeather(param) {
 
 // Display the current weather conditions
 async function displayCurrent(currentData) {
+    const current = document.querySelector(".current");
+    current.innerHTML = `<div class="loader">Loading...</div>`
+
     let temp = currentData.main.temp.toPrecision(2);
     let feelsLike = currentData.main.feels_like.toPrecision(2);
     let humidity = currentData.main.humidity;
@@ -91,11 +89,18 @@ async function displayCurrent(currentData) {
                         <h2><span>${temp}&nbsp;°C</span> <br>${results}</h2>
                         <p>Feels like ${feelsLike}&nbsp;°   &nbsp;&nbsp;    Wind ${windSpeed}&nbsp;km/h   &nbsp;&nbsp;    Visibility ${visibility / 1000}&nbsp;km<br>
                         Pressure ${pressure}&nbsp;hPa   &nbsp;&nbsp;    Humidity ${humidity}&nbsp;%</p>`;
-    current.innerHTML = currentWeather;
+
+    setTimeout(() => {
+        current.innerHTML = currentWeather;
+    }, 1000)
+
 }
 
 // Display the forecast for 4 days
 async function displayForecast(forecastData) {
+    const dailyContainer = document.querySelector(".daily-forecast .container");
+
+    dailyContainer.innerHTML = `<div class="loader">Loading...</div>`
     let forecast = [];
     let data;
     let week = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
@@ -136,8 +141,12 @@ async function displayForecast(forecastData) {
 
     }
     let forecastJoin = forecast.join("\n");
-    let dailyContainer = document.querySelector(".daily-forecast .container");
-    dailyContainer.innerHTML = forecastJoin;
+
+    setTimeout(() => {
+        dailyContainer.innerHTML = forecastJoin;
+    }, 1200)
+
+
 }
 
 async function getImages(id) {
@@ -181,12 +190,9 @@ async function getWeatherCityByIp(fn1, fn2) {
     let userCity = "";
     try {
         let response = await fetch('https://ipinfo.io/?token=094dece3208b52');
-        console.log(response);
         if (response.status === 200) {
-            console.log(response);
 
             userCity = await response.json()
-            console.log(userCity);
             await fn1(userCity.city)
                 .then(fn2)
         }
@@ -199,7 +205,7 @@ async function getWeatherCityByIp(fn1, fn2) {
 
 // get weather of search city
 input.addEventListener("keyup", function (e) {
-    if (e.code === "Enter") {
+    if (e.key === "Enter") {
         let city = input.value;
         fetchWeather(city).then(displayWeather)
     }
