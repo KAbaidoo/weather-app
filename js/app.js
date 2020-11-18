@@ -204,7 +204,7 @@ async function getWeatherCityByIp(fn1, fn2) {
 
 
 // get weather of search city
-input.addEventListener("keyup", function (e) {
+input.addEventListener("keydown", function (e) {
     if (e.key === "Enter") {
         let city = input.value;
         fetchWeather(city).then(displayWeather)
