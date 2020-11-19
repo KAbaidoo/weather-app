@@ -146,7 +146,6 @@ async function displayForecast(forecastData) {
         dailyContainer.innerHTML = forecastJoin;
     }, 1200)
 
-
 }
 
 async function getImages(id) {
@@ -165,23 +164,15 @@ async function getImages(id) {
     return res;
 }
 
-
 window.addEventListener("DOMContentLoaded", function () {
-    /*  let city = "";
-     try {
-         city = await getCityByIp();
- 
-     } catch (err) { console.log(err) } */
 
     let fav = localStorage.getItem('bookmark')
     if (!(fav === null || fav === "")) {
-        // load weather for bookmarked city
+
         fetchWeather(fav)
             .then(displayWeather)
     } else {
-        /* console.log(city)
-        fetchWeather(city)
-            .then(displayWeather) */
+
         getWeatherCityByIp(fetchWeather, displayWeather)
     }
 })
