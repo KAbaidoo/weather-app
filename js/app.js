@@ -87,8 +87,8 @@ async function displayCurrent(currentData) {
     let currentWeather = `<h1>${city}, ${country}</h1>
                         <img src=\"${images.icon_day}\" alt=\"${images.main}-icon\" class=\"weather-icon\">
                         <h2><span>${temp}&nbsp;°C</span> <br>${results}</h2>
-                        <p>Feels like ${feelsLike}&nbsp;°   &nbsp;&nbsp;    Wind ${windSpeed}&nbsp;km/h   &nbsp;&nbsp;    Visibility ${visibility / 1000}&nbsp;km<br>
-                        Pressure ${pressure}&nbsp;hPa   &nbsp;&nbsp;    Humidity ${humidity}&nbsp;%</p>`;
+                        <p>Feels like&nbsp;&nbsp;${feelsLike}&nbsp;°   &nbsp;&nbsp;    Wind ${windSpeed}&nbsp;km/h   &nbsp;&nbsp;    Visibility&nbsp;${visibility / 1000}&nbsp;km<br>
+                        Pressure&nbsp;${pressure}&nbsp;hPa   &nbsp;&nbsp;    Humidity&nbsp;${humidity}&nbsp;%</p>`;
 
     setTimeout(() => {
         current.innerHTML = currentWeather;
@@ -121,10 +121,13 @@ async function displayForecast(forecastData) {
 
         forecast.push(`<article class="day forecast">
             <h2 class="date">${dayOfWeek}&nbsp;${dayDate}</h2>
+            <div class="content-wrap">
             <img src=\"${images.icon_day}\" alt=\"${images.main}-icon\" class=\"weather-icon\">
     
             <p class="temp"><span>${temp}&nbsp;°</span> ${feels_like}&nbsp;°</p>
             <p class="description">${desc}</p>
+            </div>
+            
         </article>`);
 
         //Determine the date and days of forecast
