@@ -204,8 +204,10 @@ inputs.forEach(input => {
             let city = input.value;
             fetchWeather(city).then(displayWeather)
         }
+
     })
 })
+
 
 
 
@@ -233,8 +235,18 @@ bookmark.addEventListener("click", (e) => {
 const find = document.querySelector(".find");
 const searchBar = document.querySelector(".search-bar")
 
-find.addEventListener("click", () => {
+find.addEventListener("click", (e) => {
     searchBar.classList.toggle("show-search-bar");
+
+    // e.preventDefault()
+
+})
+inputs.forEach((input) => {
+    input.addEventListener("keyup", (e) => {
+        if (e.key === "Enter") {
+            searchBar.classList.toggle("show-search-bar");
+        }
+    })
 })
 
 
