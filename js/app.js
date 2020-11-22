@@ -7,11 +7,11 @@ Provide current weather conditions and forecast based on a city search
 */
 "use strict";
 const API_KEY = "c1749cb94a9a268e7a35ba3804755af0";
-const input = document.getElementById("search")
+const inputs = document.querySelectorAll(".search");
 const bookmark = document.querySelector(".fa-star")
 
 
-//fetch weather
+//fetch weathers
 async function fetchWeather(city) {
     let cResponse, fResponse;
 
@@ -198,12 +198,20 @@ async function getWeatherCityByIp(fn1, fn2) {
 
 
 // get weather of search city
-input.addEventListener("keydown", function (e) {
-    if (e.key === "Enter") {
-        let city = input.value;
-        fetchWeather(city).then(displayWeather)
-    }
+inputs.forEach(input => {
+    input.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+            let city = input.value;
+            fetchWeather(city).then(displayWeather)
+        }
+    })
 })
+
+
+
+
+
+
 
 // Bookmark a city (app loads to bookmarked city on load)
 bookmark.addEventListener("click", (e) => {
@@ -212,10 +220,22 @@ bookmark.addEventListener("click", (e) => {
         window.localStorage.removeItem('bookmark');
         e.currentTarget.classList.remove("fas")
         e.currentTarget.classList.add("far")
+        e.preventDefault()
 
     } else {
         window.localStorage.setItem('bookmark', input.value);
         e.currentTarget.classList.remove("far")
         e.currentTarget.classList.add("fas")
+        e.preventDefault()
     }
 })
+
+const find = document.querySelector(".find");
+const searchBar = document.querySelector(".search-bar")
+
+find.addEventListener("click", () => {
+    searchBar.classList.toggle("show-search-bar");
+})
+
+
+
