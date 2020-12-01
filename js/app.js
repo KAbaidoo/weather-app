@@ -11,6 +11,12 @@ const inputs = document.querySelectorAll(".search");
 const bookmark = document.querySelector(".fa-star")
 
 
+var cities = (async function () {
+    let res = await fetch('../js/city.list.min.json')
+    res = await res.json()
+    return res
+})()
+
 //fetch weathers
 async function fetchWeather(city) {
     let cResponse, fResponse;
@@ -180,6 +186,8 @@ window.addEventListener("DOMContentLoaded", function () {
     }
 })
 
+
+
 async function getWeatherCityByIp(fn1, fn2) {
     let userCity = "";
     try {
@@ -193,8 +201,13 @@ async function getWeatherCityByIp(fn1, fn2) {
     } catch (error) {
         console.log(error);
     }
+    let response = await fetch('../js/city.list.min.json')
+    cities = await response.json()
+
     // return userCity;
 }
+
+
 
 
 // get weather of search city
@@ -239,6 +252,7 @@ find.addEventListener("click", (e) => {
     searchBar.classList.toggle("show-search-bar");
 
 })
+
 document.querySelector(".close").addEventListener("click", e => searchBar.classList.toggle("show-search-bar"))
 
 inputs.forEach((input) => {
@@ -248,20 +262,15 @@ inputs.forEach((input) => {
         }
     })
 })
-const cityList = document.querySelector(".cities").firstElementChild
 
-function displayResults(results) {
-    let html = results.map((result) => {
-        return `<li>${result.name}, ${result.country}</li>`
-    }).join('')
-
-    cityList.innerHTML = html
-}
+inputs.forEach(input => {
+    input.addEventListener("input", e => {
+        getCities(e.target.value)
+    })
+})
 
 
-async function getCities(input) {
-    let response = await fetch('../js/city.list.min.json')
-    let cities = await response.json()
+function getCities(input) {
 
     let results = cities.filter((city) => {
         let regex = new RegExp(`^${input}`, "gi")
@@ -274,10 +283,46 @@ async function getCities(input) {
     displayResults(results)
 }
 
-inputs.forEach(input => {
-    input.addEventListener("input", e => {
-        getCities(e.target.value)
-    })
-})
+
+
+const cityList = document.querySelector(".cities").firstElementChild
+
+function displayResults(results) {
+    let html = results.map((result) => {
+        return `<li class="city">${result.name}, ${result.country}</li>`
+    }).join('')
+    cityList.innerHTML = html
+
+    const city = document.querySelectorAll(".city")
+    city.forEach(item => item.addEventListener("click", e => {
+        let text = e.target.textContent
+        let str = text.substring(0, text.indexOf(','))
+        inputs.forEach(input => {
+            input.value = str
+            cityList.innerHTML = '';
+            fetchWeather(str).then(displayWeather)
+            input.value = ''
+
+        })
+        searchBar.classList.toggle("show-search-bar")
+
+
+    }))
+
+
+}
+
+// const city = document.querySelectorAll(".city")
+
+
+
+
+
+
+
+
+
+
+
 
 

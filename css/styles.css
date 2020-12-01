@@ -162,6 +162,12 @@ input[type="text"] {
  color: black;
  font-weight: 300;
  list-style: none;
+ cursor: pointer;
+}
+.cities li:hover {
+ background-color: #d5dadfb7;
+ color: black;
+ 
 }
 
 
