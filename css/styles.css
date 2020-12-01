@@ -25,6 +25,7 @@
     
   }
   .current{
+    margin-top: 10px;
     padding: 20px;
     text-align: center;
    
@@ -129,10 +130,11 @@ input[type="text"] {
   /* margin-bottom: 5px; */
   display: inline-block;
 }
-.fav,.find {
+.icons {
  display: inline-block;
   margin: 15px 25px;
  font-size: 1.5em;
+ cursor: pointer;
 }
 .search-bar {
   height: 60px;
@@ -143,22 +145,40 @@ input[type="text"] {
   background: inherit;
   text-align: center;
   display: none;
-  
 }
+.cities {
+  position: absolute;
+  top: 54px;
+  z-index: 4;
+ background: white;
+ opacity: 0.9;
+ width: 60%;
+ /* margin: auto; */
+ margin-left: 110px;
+ 
+}
+.cities li {
+ padding: 0.5rem;
+ color: black;
+ font-weight: 300;
+ list-style: none;
+}
+
+
 .show-search-bar { 
   display: inline-block;
 }
 
 .search-bar input[type="text"] {
     display: inline-block;
-    width: calc(100% - 100px);
+    width: calc(100% - 120px);
     border-radius: 45px;
     background-color: transparent;
     border: 2px solid #f8f9fad7;
     color: #f8f9fa;
-    margin: 15px auto ;
+    margin: 10px auto ;
   
-    padding: 5px 16px;
+    padding: 7px 16px;
     font-size: 17px;
   }
 
@@ -235,8 +255,7 @@ h2 {
   margin: 2rem;
 }
 
-.fav,
-.find {
+.icons {
   display: inline-block;
   /* float: right; */
   padding: 6px 10px;

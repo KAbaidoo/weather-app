@@ -238,9 +238,9 @@ const searchBar = document.querySelector(".search-bar")
 find.addEventListener("click", (e) => {
     searchBar.classList.toggle("show-search-bar");
 
-    // e.preventDefault()
-
 })
+document.querySelector(".close").addEventListener("click", e => searchBar.classList.toggle("show-search-bar"))
+
 inputs.forEach((input) => {
     input.addEventListener("keyup", (e) => {
         if (e.key === "Enter") {
@@ -248,6 +248,36 @@ inputs.forEach((input) => {
         }
     })
 })
+const cityList = document.querySelector(".cities").firstElementChild
 
+function displayResults(results) {
+    let html = results.map((result) => {
+        return `<li>${result.name}, ${result.country}</li>`
+    }).join('')
+
+    cityList.innerHTML = html
+}
+
+
+async function getCities(input) {
+    let response = await fetch('../js/city.list.min.json')
+    let cities = await response.json()
+
+    let results = cities.filter((city) => {
+        let regex = new RegExp(`^${input}`, "gi")
+        return city.name.match(regex)
+    })
+    if (input.length === 0) {
+        results = [];
+    }
+
+    displayResults(results)
+}
+
+inputs.forEach(input => {
+    input.addEventListener("input", e => {
+        getCities(e.target.value)
+    })
+})
 
 
