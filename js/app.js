@@ -16,6 +16,8 @@ var cities;
     cities = res
 })()
 
+
+
 //fetch weathers
 async function fetchWeather(city) {
     let cResponse, fResponse;
