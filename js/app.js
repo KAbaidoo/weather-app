@@ -8,13 +8,12 @@ Provide current weather conditions and forecast based on a city search
 "use strict";
 const API_KEY = "c1749cb94a9a268e7a35ba3804755af0";
 const inputs = document.querySelectorAll(".search");
-const bookmark = document.querySelector(".fa-star")
-
-
-var cities = (async function () {
+var cdata;
+var cities;
+(async function () {
     let res = await fetch('../js/city.list.min.json')
     res = await res.json()
-    return res
+    cities = res
 })()
 
 //fetch weathers
@@ -38,34 +37,36 @@ async function fetchWeather(city) {
     } catch (error) {
         console.log(error);
     }
-
+    cdata = cResponse;
     return { cResponse, fResponse }
 
 }
 
 // display information
 function displayWeather(param) {
-
-
-
-    let currentData = param.cResponse,
-        forecastData = param.fResponse;
+    const { cResponse, fResponse } = param
 
     // display  current weather
-    displayCurrent(currentData)
+    displayCurrent(cResponse)
 
     // display 4-day forecast
-    displayForecast(forecastData)
+    displayForecast(fResponse)
 
     // change bookmark icon if city is bookmarked
-    if (localStorage.getItem('bookmark')) {
-        let fav = localStorage.getItem('bookmark');
 
-        if (fav === currentData.name.toLowerCase()) {
-            bookmark.classList.remove("far")
-            bookmark.classList.add("fas")
-        }//End bookmarking 
+    let fav = localStorage.getItem('bookmark')
+    console.log('bookmark', fav)
+    console.log("search", cdata.name)
+
+    // bookmark.classList.add("fas")
+    bookmark.classList.remove("fas")
+
+    if (fav === cdata.name) {
+        // bookmark.classList.remove("far")
+        bookmark.classList.add("fas")
     }
+    //End bookmarking
+
 }
 
 // Display the current weather conditions
@@ -229,21 +230,27 @@ inputs.forEach(input => {
 
 
 // Bookmark a city (app loads to bookmarked city on load)
-bookmark.addEventListener("click", (e) => {
 
-    if (localStorage.getItem('bookmark') === input.value) {
+
+
+const bookmark = document.querySelector(".fa-star")
+
+bookmark.addEventListener("click", (e) => {
+    if (localStorage.getItem('bookmark') === cdata.name) {
         window.localStorage.removeItem('bookmark');
         e.currentTarget.classList.remove("fas")
         e.currentTarget.classList.add("far")
         e.preventDefault()
 
     } else {
-        window.localStorage.setItem('bookmark', input.value);
+        window.localStorage.setItem('bookmark', cdata.name);
         e.currentTarget.classList.remove("far")
         e.currentTarget.classList.add("fas")
         e.preventDefault()
     }
 })
+
+
 
 const find = document.querySelector(".find");
 const searchBar = document.querySelector(".search-bar")
@@ -263,14 +270,17 @@ inputs.forEach((input) => {
     })
 })
 
+
+
 inputs.forEach(input => {
     input.addEventListener("input", e => {
-        getCities(e.target.value)
+        getCities(e.target.value, cities)
+
     })
 })
 
 
-function getCities(input) {
+function getCities(input, cities) {
 
     let results = cities.filter((city) => {
         let regex = new RegExp(`^${input}`, "gi")
@@ -313,7 +323,6 @@ function displayResults(results) {
 }
 
 // const city = document.querySelectorAll(".city")
-
 
 
 
