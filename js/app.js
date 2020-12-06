@@ -16,17 +16,10 @@ var cities;
     cities = res
 })()
 
-
-
-
-
-
-
 //fetch weather
 
 async function fetchWeather(city) {
     let cResponse, fResponse;
-
     try {
 
         let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`);
@@ -75,6 +68,7 @@ function displayWeather(param) {
     //End bookmarking
 
 }
+
 
 // Display the current weather conditions
 async function displayCurrent(currentData) {
