@@ -42,6 +42,7 @@ async function fetchWeather(city) {
 
 }
 
+
 // display information
 function displayWeather(param) {
     const { cResponse, fResponse } = param
