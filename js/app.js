@@ -1,23 +1,18 @@
-/* 
-requirements
-Provide current weather conditions and forecast based on a city search
-1.  Detect location of user and provide weather conditions on start of application.
-2.  Enable user to bookmark a city to be loaded on next visit
-3.  
-*/
+
 "use strict";
 const API_KEY = "c1749cb94a9a268e7a35ba3804755af0";
 const inputs = document.querySelectorAll(".search");
 var cdata;
 var cities;
+// Load city names
 (async function () {
     let res = await fetch('../js/city.list.min.json')
     res = await res.json()
     cities = res
 })()
 
-//fetch weather
 
+//fetch weather
 async function fetchWeather(city) {
     let cResponse, fResponse;
     try {
@@ -56,8 +51,6 @@ function displayWeather(param) {
     // change bookmark icon if city is bookmarked
 
     let fav = localStorage.getItem('bookmark')
-    console.log('bookmark', fav)
-    console.log("search", cdata.name)
 
     // bookmark.classList.add("fas")
     bookmark.classList.remove("fas")
@@ -160,6 +153,7 @@ async function displayForecast(forecastData) {
 
 }
 
+// Get weather icons and background images
 async function getImages(id) {
     let res = null;
     try {
@@ -176,6 +170,7 @@ async function getImages(id) {
     return res;
 }
 
+// Load weather information on start up
 window.addEventListener("DOMContentLoaded", function () {
 
     let fav = localStorage.getItem('bookmark')
@@ -190,7 +185,7 @@ window.addEventListener("DOMContentLoaded", function () {
 })
 
 
-
+// Get user location from IP
 async function getWeatherCityByIp(fn1, fn2) {
     let userCity = "";
     try {
@@ -207,10 +202,8 @@ async function getWeatherCityByIp(fn1, fn2) {
     let response = await fetch('../js/city.list.min.json')
     cities = await response.json()
 
-    // return userCity;
+
 }
-
-
 
 
 // get weather of search city
@@ -225,16 +218,7 @@ inputs.forEach(input => {
 })
 
 
-
-
-
-
-
-
 // Bookmark a city (app loads to bookmarked city on load)
-
-
-
 const bookmark = document.querySelector(".fa-star")
 
 bookmark.addEventListener("click", (e) => {
@@ -253,7 +237,7 @@ bookmark.addEventListener("click", (e) => {
 })
 
 
-
+// Toggle search bar
 const find = document.querySelector(".find");
 const searchBar = document.querySelector(".search-bar")
 
@@ -262,6 +246,7 @@ find.addEventListener("click", (e) => {
 
 })
 
+// close search bar
 document.querySelector(".close").addEventListener("click", e => searchBar.classList.toggle("show-search-bar"))
 
 inputs.forEach((input) => {
@@ -272,15 +257,13 @@ inputs.forEach((input) => {
     })
 })
 
-
-
+// Get city suggestions
 inputs.forEach(input => {
     input.addEventListener("input", e => {
         getCities(e.target.value, cities)
 
     })
 })
-
 
 function getCities(input, cities) {
 
@@ -296,26 +279,34 @@ function getCities(input, cities) {
 }
 
 
-
-const cityList = document.querySelector(".cities").firstElementChild
+// Display city suggestions
+const listDiv = document.querySelectorAll(".cities")
 
 function displayResults(results) {
     let html = results.map((result) => {
         return `<li class="city">${result.name}, ${result.country}</li>`
     }).join('')
-    cityList.innerHTML = html
+
+    listDiv.forEach(element => {
+        element.firstElementChild.innerHTML = html
+    });
 
     const city = document.querySelectorAll(".city")
     city.forEach(item => item.addEventListener("click", e => {
         let text = e.target.textContent
         let str = text.substring(0, text.indexOf(','))
+
         inputs.forEach(input => {
             input.value = str
-            cityList.innerHTML = '';
+
             fetchWeather(str).then(displayWeather)
             input.value = ''
 
         })
+        listDiv.forEach(element => {
+            element.firstElementChild.innerHTML = ''
+        });
+
         searchBar.classList.toggle("show-search-bar")
 
 
@@ -324,7 +315,6 @@ function displayResults(results) {
 
 }
 
-// const city = document.querySelectorAll(".city")
 
 
 

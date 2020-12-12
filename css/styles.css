@@ -155,6 +155,7 @@ input[type="text"] {
  width: 60%;
  /* margin: auto; */
  margin-left: 110px;
+ text-align: left;
  
 }
 .cities li {
@@ -235,6 +236,34 @@ input[type="text"] {
 
 
  /* ======================================================================== */
+ .show-search-bar{
+   display: none;
+ }
+ .cities {
+  position: absolute;
+  top: 50px;
+  right: 20px;
+  z-index: 5;
+ background: white;
+ opacity: 0.9;
+ width: 18%;
+ margin-left: 90px;
+ text-align: left;
+ 
+}
+.cities li {
+ padding: 0.5rem;
+ color: black;
+ font-weight: 300;
+ list-style: none;
+ cursor: pointer;
+}
+.cities li:hover {
+ background-color: #d5dadfb7;
+ color: black;
+ 
+}
+
  
 p {
   font-weight: 300;
@@ -369,7 +398,7 @@ figure {
   }
   input[type="text"] {
     display: inline-block;
-    width: 150px;
+    width: 180px;
     border-radius: 45px;
     background-color: transparent;
     border: 2px solid #f8f9fad7;
