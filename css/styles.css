@@ -10,7 +10,8 @@
     height: 100vh;
     font-family: "Roboto", sans-serif;
     color: #ffffff;
-    background: #f8f9fa url(../images/sunny.jpg) no-repeat;
+    /* background: #f8f9fa; */
+    background: #f8f9fa no-repeat;
     background-attachment: fixed;
     background-size: cover;
     font-weight: 200;

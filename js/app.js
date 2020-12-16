@@ -37,6 +37,14 @@ async function fetchWeather(city) {
 
 }
 
+// change background
+
+
+
+function changeBackground() {
+    document.body.style.backgroundImage = 'url(../images/sunny.jpg)'
+}
+changeBackground()
 
 // display information
 function displayWeather(param) {
@@ -47,6 +55,7 @@ function displayWeather(param) {
 
     // display 4-day forecast
     displayForecast(fResponse)
+
 
     // change bookmark icon if city is bookmarked
 
