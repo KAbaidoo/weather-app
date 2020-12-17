@@ -109,9 +109,14 @@ async function displayCurrent(currentData) {
 
 }
 
+
+
+
 // Display the forecast for 4 days
 async function displayForecast(forecastData) {
     const dailyContainer = document.querySelector(".daily-forecast .container");
+
+
 
     dailyContainer.innerHTML = `<div class="loader">Loading...</div>`
     let forecast = [];
