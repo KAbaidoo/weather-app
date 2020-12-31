@@ -9,9 +9,9 @@
   body {
     height: 100vh;
     font-family: "Roboto", sans-serif;
-    color: #ffffff;
+    color: #161616;
     /* background: #f8f9fa; */
-    background: #f8f9fa no-repeat;
+    background: #fcfcfc no-repeat;
     background-attachment: fixed;
     background-size: cover;
     font-weight: 200;
@@ -29,6 +29,9 @@
     margin-top: 10px;
     padding: 20px;
     text-align: center;
+    /* border: 0.01rem solid #161616; */
+    border-radius: 3%;
+     box-shadow: 1px 1px 3px 1px rgb(197, 198, 199);
    
   }
   .current h2 {
@@ -38,18 +41,22 @@
 
  
   .daily-forecast h1 {
-    margin: 20px ;
+    margin: 20px auto auto 10px ;
     text-align: center;
     font-size: 2em;
   }
   .forecast {
-    border-top: 0.5px solid #ffffff;
-    
-    margin-top: 20px;
+    border-radius: 3%;
+     box-shadow: 1px 1px 3px 1px rgb(197, 198, 199);
+   
+    padding: 10px;
+    margin-top: 15px;
   }
   .forecast h2 {
     font-size: 1.4em;
+    margin-bottom: 0;
   }
+  
   main {
     padding : 10px;
     min-width:320px
@@ -65,8 +72,8 @@
   font-weight: 290;
   letter-spacing: 1px;
   }
-.temp{
-    margin-left: 20px;
+  .temp{
+    margin-left: 0;
   }
 
 h1,
@@ -124,6 +131,7 @@ figure {
 }
 input[type="text"] {
   display: none;
+  
 }
 .search-container {
   float: right;
@@ -146,6 +154,9 @@ input[type="text"] {
   background: inherit;
   text-align: center;
   display: none;
+  
+  
+  
 }
 .cities {
   position: absolute;
@@ -157,18 +168,19 @@ input[type="text"] {
  /* margin: auto; */
  margin-left: 110px;
  text-align: left;
- 
+ /* border: 0.5px solid rgb(104, 104, 104); */
 }
 .cities li {
  padding: 0.5rem;
  color: black;
+
+ background-color:#fcfafa ;
  font-weight: 300;
  list-style: none;
  cursor: pointer;
 }
 .cities li:hover {
- background-color: #d5dadfb7;
- color: black;
+ background-color: #bfbfbfb7;
  
 }
 
@@ -182,10 +194,9 @@ input[type="text"] {
     width: calc(100% - 120px);
     border-radius: 45px;
     background-color: transparent;
-    border: 2px solid #f8f9fad7;
-    color: #f8f9fa;
+   border: 2px solid #161616;
+    color: #161616;
     margin: 10px auto ;
-  
     padding: 7px 16px;
     font-size: 17px;
   }
@@ -200,7 +211,7 @@ input[type="text"] {
   }
 
   ::placeholder {
-    color: #d5dadfb7;
+    color: #83878ab7;
     opacity: 1;
     
   }
@@ -225,10 +236,7 @@ input[type="text"] {
     
   }
   
-
-
 }
-
 
 /* =================================          
                 Desktop
@@ -245,7 +253,7 @@ input[type="text"] {
   top: 50px;
   right: 20px;
   z-index: 5;
- background: white;
+ background: rgb(155, 156, 157);
  opacity: 0.9;
  width: 18%;
  margin-left: 90px;
@@ -265,7 +273,6 @@ input[type="text"] {
  
 }
 
- 
 p {
   font-weight: 300;
   font-size: 0.9em;
@@ -351,6 +358,9 @@ figure {
   /* grid-row: 1/2; */
   text-align: center;
   padding: 20px;
+  width: calc(100vw - 30%);
+  margin: 20px auto 10px;
+
 }
 .daily-forecast h1 {
   margin: 30px;
@@ -402,7 +412,7 @@ figure {
     width: 180px;
     border-radius: 45px;
     background-color: transparent;
-    border: 2px solid #f8f9fad7;
+    border: 2px solid #292929d7;
     color: #f8f9fa;
     float: right;
     margin-right: 20px;
@@ -411,56 +421,22 @@ figure {
     font-size: 17px;
   }
   input:focus {
-    color: #f8f9fa;
+    color: #313233;
     outline: none;
     /* border: 1.8px solid #ffffff; */
-    box-shadow: 0 0 4px rgb(243, 246, 247);
+    box-shadow: 0 0 5px rgb(143, 191, 228);
     transition-duration: 0.2s;
   }
 
   ::placeholder {
-    color: #d5dadfb7;
+    color: #767779b7;
     opacity: 1;
   }
   input:focus::placeholder {
     visibility: hidden;
     transition-duration: 0.2s;
   }
-/* }
-@media only screen and (min-width: 625px) {
-  .content-wrap {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .container {
-    padding: 10px;
-    margin: 0;
-    justify-content: left;
-  }
 
-  .forecast img {
-    width: 60px;
-    height: 60px;
-  }
-  .forecast .temp {
-    margin: auto;
-  }
-  .forecast p {
-    margin: auto;
-  }
-  .forecast {
-    flex: 150px;
-    text-align: center;
-    /* width: 100px; 
-    text-align: left;
-    border: 1px solid black;
-    height: 100px;
-    margin: 5px;
-  }
-} */
 
 /* Loader */
 .loader {

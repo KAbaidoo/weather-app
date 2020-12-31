@@ -37,14 +37,6 @@ async function fetchWeather(city) {
 
 }
 
-// change background
-
-
-
-function changeBackground() {
-    document.body.style.backgroundImage = 'url(../images/sunny.jpg)'
-}
-changeBackground()
 
 // display information
 function displayWeather(param) {
@@ -169,7 +161,7 @@ async function displayForecast(forecastData) {
 
 }
 
-// Get weather icons and background images
+// Get weather icons 
 async function getImages(id) {
     let res = null;
     try {
