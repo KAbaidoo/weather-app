@@ -11,7 +11,6 @@ var cities;
     cities = res
 })()
 
-
 //fetch weather
 async function fetchWeather(city) {
     let cResponse, fResponse;
@@ -37,7 +36,6 @@ async function fetchWeather(city) {
 
 }
 
-
 // display information
 function displayWeather(param) {
     const { cResponse, fResponse } = param
@@ -50,7 +48,6 @@ function displayWeather(param) {
 
 
     // change bookmark icon if city is bookmarked
-
     let fav = localStorage.getItem('bookmark')
 
     // bookmark.classList.add("fas")
@@ -62,10 +59,7 @@ function displayWeather(param) {
     }
     //End bookmarking
 
-
-
 }
-
 
 // Display the current weather conditions
 async function displayCurrent(currentData) {
