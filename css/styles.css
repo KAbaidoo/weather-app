@@ -9,9 +9,9 @@
   body {
     height: 100vh;
     font-family: "Roboto", sans-serif;
-    color: #161616;
-    /* background: #f8f9fa; */
-    background: #fcfcfc no-repeat;
+    color: #fcfcfc;
+    background-position: center;
+    background: url("../images/sunny.jpg") #fcfcfc no-repeat;
     background-attachment: fixed;
     background-size: cover;
     font-weight: 200;
@@ -30,9 +30,7 @@
     padding: 20px;
     text-align: center;
     /* border: 0.01rem solid #161616; */
-    border-radius: 3%;
-     box-shadow: 1px 1px 3px 1px rgb(197, 198, 199);
-   
+    
   }
   .current h2 {
      font-size: 2em;
@@ -46,8 +44,8 @@
     font-size: 2em;
   }
   .forecast {
-    border-radius: 3%;
-     box-shadow: 1px 1px 3px 1px rgb(197, 198, 199);
+   border-top: 1px solid;
+    color: #fcfcfc;
    
     padding: 10px;
     margin-top: 15px;
@@ -413,7 +411,7 @@ figure {
     width: 180px;
     border-radius: 45px;
     background-color: transparent;
-    border: 2px solid #292929d7;
+    border: 2px solid #fcfcfc;
     color: #f8f9fa;
     float: right;
     margin-right: 20px;
@@ -430,7 +428,7 @@ figure {
   }
 
   ::placeholder {
-    color: #767779b7;
+    color: #dbdddfb7;
     opacity: 1;
   }
   input:focus::placeholder {
